@@ -11,11 +11,11 @@ import ItemsPagination from "../src/components/files/ItemsPagination";
 import {getFormatedQuery} from "../src/helpers/converters";
 import graphql from "../src/graphql/client";
 import ItemCard from "../src/components/files/ItemCard";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles(theme => ({
     container: {
-        marginTop: 5,
-        marginLeft: 3
+        padding: 5
     },
 }))
 
@@ -45,24 +45,36 @@ const Files = ({careers, subjects, files, totalPages}) => {
     });
 
     return (
-        <Grid container spacing={1} className={classes.container}>
-            <Grid item xs={12} sm={6} md={5} lg={2}>
-                <FilterForm singleColumn={true} careers={careers} subjects={subjects}/>
-            </Grid>
-            <Grid container item xs={12} sm={6} md={7} lg={10} spacing={1}>
-                <Grid item xs={12}>
-                    <ItemsPagination totalPages={totalPages}/>
+        <Grid container>
+            <Grid container spacing={1} className={classes.container}>
+                <Grid item xs={12} sm={6} md={5} lg={2}>
+                    <FilterForm singleColumn={true} careers={careers} subjects={subjects}/>
                 </Grid>
-                {
-                    data?.files.map(f => {
-                        return (<Grid className="animate__animated animate__fadeIn"
-                                      key={f.id} item xs={12} sm={6}>
-                            <ItemCard file={f}/>
-                        </Grid>)
-                    })
-                }
-                <Grid item xs={12}>
-                    <ItemsPagination totalPages={totalPages}/>
+                <Grid container item xs={12} sm={6} md={7} lg={10} spacing={1}>
+                    <Grid item xs={12}>
+                        <ItemsPagination totalPages={totalPages}/>
+                    </Grid>
+                    {
+                        !data ?
+                            [...Array(6)].map((e, i) =>
+                                <Grid animation="wave" item xs={12} sm={6} key={i}>
+                                    <Skeleton variant="text" width={650}/>
+                                    <Skeleton variant="rect" width={650} height={180}/>
+                                </Grid>
+                            )
+                            :
+                            data.files.map(f => {
+                                return (
+                                    <Grid className="animate__animated animate__fadeIn"
+                                          key={f.id} item xs={12} sm={6}>
+                                        <ItemCard file={f}/>
+                                    </Grid>
+                                )
+                            })
+                    }
+                    <Grid item xs={12}>
+                        <ItemsPagination totalPages={totalPages}/>
+                    </Grid>
                 </Grid>
             </Grid>
         </Grid>

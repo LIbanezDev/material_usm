@@ -1,12 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Head from 'next/head';
+import Router from 'next/router';
 import {ThemeProvider} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/components/theme';
 import NavBar from "../src/components/NavBar";
+import NProgress from 'nprogress';
+import 'nprogress/nprogress.css';
 
-export default function MyApp(props) {
+NProgress.configure({parent: '.MuiGrid-root'})
+
+Router.events.on('routeChangeStart', () => {
+    NProgress.start()
+})
+Router.events.on('routeChangeComplete', () => {
+    NProgress.done()
+})
+Router.events.on('routerChangeError', () => {
+    NProgress.done()
+})
+
+const MyApp = props => {
 
     const {Component, pageProps} = props;
 
@@ -38,3 +53,5 @@ MyApp.propTypes = {
     Component: PropTypes.elementType.isRequired,
     pageProps: PropTypes.object.isRequired,
 };
+
+export default MyApp
