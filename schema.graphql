@@ -1,0 +1,61 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+}
+
+type Career {
+    id: ID
+    name: String
+    type: String
+}
+
+type Error {
+    code: Int
+    message: String
+}
+
+type File {
+    Subject: Subject
+    createdAt: String
+    createdAtFormated: String
+    extension: String
+    id: ID
+    name: String
+    subjectId: Int
+    updatedAt: String
+    url: String
+}
+
+type Mutation {
+    registerUser(age: Int!, careerId: Int, name: String!, password: String!, username: String!): Register
+}
+
+type Query {
+    careers(ID: Int, type: String): [Career]
+    files(ID: Int, careerId: Int, careerType: String, limit: Int, offset: Int, semester: Int, subjectId: Int): [File]
+    subjects(ID: Int, careerId: Int, semester: Int): [Subject]
+}
+
+type Register {
+    Error: Error
+    User: User
+}
+
+type Subject {
+    Career: Career
+    careerId: Int
+    id: ID
+    name: String
+    semester: Int
+}
+
+type User {
+    Career: Career
+    age: Int
+    id: ID
+    image: String
+    name: String
+    username: String
+}
