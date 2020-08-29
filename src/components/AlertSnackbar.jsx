@@ -3,6 +3,7 @@ import MuiAlert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 
 const AlertSnackbar = ({open, msg, variant, setAlertData}) => {
+
     function Alert(props) {
         return <MuiAlert elevation={6} variant="filled" {...props} />;
     }
@@ -21,7 +22,6 @@ const AlertSnackbar = ({open, msg, variant, setAlertData}) => {
                 horizontal: 'right',
             }}
             open={open}
-            autoHideDuration={6000}
             onClose={handleClose}>
             <Alert onClose={handleClose} severity={variant}>
                 {msg}
