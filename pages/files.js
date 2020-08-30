@@ -44,7 +44,7 @@ const Files = ({careers, subjects, files, totalPages}) => {
             ? {files, totalPages}
             : undefined,
     });
-    console.log(data)
+
     return (
         <Grid container>
             <Grid container spacing={1} className={classes.container}>
