@@ -31,19 +31,20 @@ const Files = ({careers, subjects, files, totalPages}) => {
 
     const {queryStaticParameters, queryDynamicParameters} = getFormatedQuery(query)
 
-    const {data} = useSWR(`{files 
+    const {data} = useSWR(`query { files 
     (${queryDynamicParameters} ${queryStaticParameters}) 
     {
         id name url createdAtFormated createdAt updatedAt
         Subject { name semester Career { name type } }
     }
+        filesAmount(${queryDynamicParameters})
     }`, fetcher, {
         dedupingInterval: 15000,
         initialData: deepEqual(query, serverQuery)
             ? {files, totalPages}
             : undefined,
     });
-
+    console.log(data)
     return (
         <Grid container>
             <Grid container spacing={1} className={classes.container}>
@@ -52,28 +53,31 @@ const Files = ({careers, subjects, files, totalPages}) => {
                 </Grid>
                 <Grid container item xs={12} sm={6} md={7} lg={10} spacing={1}>
                     <Grid item xs={12}>
-                        <ItemsPagination totalPages={totalPages}/>
+                        <ItemsPagination totalPages={Math.ceil(data?.filesAmount / 6) || totalPages}/>
                     </Grid>
                     {
                         !data ?
                             [...Array(6)].map((e, i) =>
-                                <Grid animation="wave" item xs={12} sm={6} key={i}>
+                                <Grid animation="wave" className="animate__animated animate__fadeInDown" item xs={12} sm={6} key={i}>
                                     <Skeleton variant="text" width={650}/>
                                     <Skeleton variant="rect" width={650} height={180}/>
-                                </Grid>
-                            )
+                                </Grid>)
                             :
-                            data.files.map(f => {
-                                return (
-                                    <Grid className="animate__animated animate__fadeIn"
-                                          key={f.id} item xs={12} sm={6}>
-                                        <ItemCard file={f}/>
-                                    </Grid>
-                                )
-                            })
+                            (
+                                data.files.length > 0
+                                    ?
+                                    data.files.map(f =>
+                                        (<Grid className="animate__animated animate__fadeIn"
+                                                  key={f.id} item xs={12} sm={6}>
+                                                <ItemCard file={f}/>
+                                            </Grid>))
+                                    :
+                                    <div> Mensaje bonito: No hay archivos aún :) </div>
+                            )
+
                     }
                     <Grid item xs={12}>
-                        <ItemsPagination totalPages={totalPages}/>
+                        <ItemsPagination totalPages={Math.ceil(data?.filesAmount / 6) || totalPages}/>
                     </Grid>
                 </Grid>
             </Grid>

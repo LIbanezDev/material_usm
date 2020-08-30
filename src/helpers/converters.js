@@ -1,3 +1,5 @@
+import {getPaginatedFiles} from "./getPaginatedFiles";
+
 export function getAsString(value) {
     if(Array.isArray(value)) {
         return value[0];

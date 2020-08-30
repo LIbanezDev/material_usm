@@ -1,5 +1,5 @@
 import {executeQuery} from "../graphql/queries";
-import {getFormatedQuery, getValueNumber, getValueStr} from "./converters";
+import {getFormatedQuery} from "./converters";
 
 export const getPaginatedFiles = async query => {
 
@@ -28,13 +28,13 @@ export const getPaginatedFiles = async query => {
 
     // '(' is queryDynamicParameters initial value
     if(queryDynamicParameters === '') {
-        const {files: items} = await executeQuery(`files { id }`)
-        totalItems = items
+        const {filesAmount} = await executeQuery(`filesAmount`)
+        totalItems = filesAmount
     } else {
-        const {files: items} = await executeQuery(`files (${queryDynamicParameters}) { id }`)
-        totalItems = items
+        const {filesAmount} = await executeQuery(`filesAmount (${queryDynamicParameters})`)
+        totalItems = filesAmount
     }
 
-    return {files, totalPages:Math.ceil(totalItems.length / 6)}
+    return {files, totalPages:Math.ceil(totalItems / 6)}
 }
 

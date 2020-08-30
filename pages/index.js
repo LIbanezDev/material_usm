@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 const IndexPage = ({careers, subjects}) => {
 
     return (
-        <Grid container maxWidth="xl">
+        <Grid container>
             <Grid item xs={12} lg={6}>
                 <Typography variant="h2" gutterBottom>
                     Material Universitario

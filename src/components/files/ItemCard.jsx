@@ -5,7 +5,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { CloudDownload, FileCopy, Launch } from '@material-ui/icons';
+import {CloudDownload, FileCopy, Launch} from '@material-ui/icons';
 import green from "@material-ui/core/colors/green";
 
 const useStyles = makeStyles((theme) => ({
@@ -58,10 +58,10 @@ const ItemCard = ({file}) => {
                 </CardContent>
                 <div className={classes.controls}>
                     <IconButton aria-label="previous">
-                        <CloudDownload className={classes.playIcon} style={{ color: green[500] }} />
+                        <CloudDownload className={classes.playIcon} style={{color: green[500]}}/>
                     </IconButton>
                     <IconButton aria-label="next">
-                        <FileCopy className={classes.playIcon} color="primary" />
+                        <FileCopy className={classes.playIcon} color="primary"/>
                     </IconButton>
                 </div>
             </div>
