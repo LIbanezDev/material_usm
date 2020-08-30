@@ -35,7 +35,7 @@ export const getFormatedQuery = (query) => {
     queryDynamicParameters +=
         (getValueNumber(query.subject) && getValueNumber(query.subject) !== 0) ? `, subjectId: ${query.subject}` : ''
 
-    const queryStaticParameters = `, limit: ${rowsPerPage}, offset: ${offset}`
+    const queryStaticParameters = ` limit: ${rowsPerPage}, offset: ${offset}`
 
     return {queryDynamicParameters, queryStaticParameters}
 }

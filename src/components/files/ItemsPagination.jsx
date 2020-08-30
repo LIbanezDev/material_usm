@@ -13,6 +13,7 @@ export default function itemsPagination({ totalPages }) {
         <Pagination
             page={parseInt(getAsString(query.page) || '1')}
             count={totalPages}
+            color="primary"
             renderItem={(item) => (
                 <PaginationItem
                     component={PaginationLink}
