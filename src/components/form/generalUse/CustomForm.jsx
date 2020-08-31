@@ -50,15 +50,14 @@ const CustomForm = ({socket}) => {
                             })
                         }
                         initialValues={initialValues} onSubmit={(values, formikHelpers) => {
-                        return new Promise(res => {
-                            setTimeout(() => {
-                                socket.emit('msg', JSON.stringify(values, null, 4))
-                                console.log(values);
-                                console.log(formikHelpers);
-                                console.log('---------');
-                                res();
-                            }, 2500);
-                        })
+                            return new Promise(res => {
+                                setTimeout(() => {
+                                    console.log(values);
+                                    console.log(formikHelpers);
+                                    console.log('---------');
+                                    res();
+                                }, 2500);
+                            })
                     }}>
                         {({values, errors, isSubmitting, isValidating}) => (
                             <Form>
@@ -146,8 +145,9 @@ const CustomForm = ({socket}) => {
                                     </FormGroup>
                                 </Box>
 
-                                <Button type="submit" disabled={isSubmitting || isValidating}>Submit</Button>
-
+                                <Button type="submit" disabled={isSubmitting || isValidating}>
+                                    Submit
+                                </Button>
                                 <pre>{JSON.stringify(errors, null, 4)}</pre>
                             </Form>
                         )}
@@ -156,7 +156,7 @@ const CustomForm = ({socket}) => {
             </Card>
             <Card>
                 <CardContent>
-                    <Upload classes={classes} />
+                    <Upload classes={classes}/>
                 </CardContent>
             </Card>
         </div>
