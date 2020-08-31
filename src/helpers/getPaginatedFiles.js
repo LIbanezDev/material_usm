@@ -22,19 +22,19 @@ export const getPaginatedFiles = async query => {
         }
     }`
 
-    const {files} = await executeQuery(baseQuery)
-
     let totalItems;
-
+    let totalFiles;
     // '(' is queryDynamicParameters initial value
     if(queryDynamicParameters === '') {
-        const {filesAmount} = await executeQuery(`filesAmount`)
+        const {filesAmount, files} = await executeQuery(`${baseQuery} filesAmount`)
         totalItems = filesAmount
+        totalFiles = files
     } else {
-        const {filesAmount} = await executeQuery(`filesAmount (${queryDynamicParameters})`)
+        const {filesAmount, files} = await executeQuery(`${baseQuery} filesAmount (${queryDynamicParameters})`)
         totalItems = filesAmount
+        totalFiles = files
     }
 
-    return {files, totalPages:Math.ceil(totalItems / 6)}
+    return {files: totalFiles, totalPages:Math.ceil(totalItems / 6)}
 }
 

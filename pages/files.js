@@ -48,11 +48,11 @@ const Files = ({careers, subjects, files, totalPages}) => {
             : undefined,
     });
 
-    console.log(data)
     const totalPagesUpdated = data?.filesAmount === 0 ? 0
         : Math.ceil(data?.filesAmount / 6)
         ||
         totalPages
+
     return (
         <Grid container>
             <Grid container spacing={1} className={classes.container}>
@@ -63,7 +63,7 @@ const Files = ({careers, subjects, files, totalPages}) => {
                     {
                         !data ?
                             [...Array(6)].map((e, i) =>
-                                <Grid animation="wave" className="animate__animated animate__fadeInDown" item xs={12} sm={6} key={i}>
+                                <Grid animation="wave" className="animate__animated animate__zoomIn" item xs={12} sm={6} key={i}>
                                     <Skeleton variant="text" width={650}/>
                                     <Skeleton variant="rect" width={650} height={180}/>
                                 </Grid>)
@@ -71,24 +71,22 @@ const Files = ({careers, subjects, files, totalPages}) => {
                             (
                                 data.files.length > 0
                                     ?
-                                    <React.Fragment>
-                                        <Grid item xs={12}>
-                                            <ItemsPagination totalPages={totalPagesUpdated}
-                                            />
-                                        </Grid>
+                                        <React.Fragment>
+                                            <Grid item xs={12}>
+                                                <ItemsPagination totalPages={totalPagesUpdated}/>
+                                            </Grid>
                                             {data.files.map(f =>
-                                                (<Grid className="animate__animated animate__fadeIn"
-                                                       key={f.id} item xs={12} sm={6}>
+                                                (<Grid key={f.id} item xs={12} sm={6}>
                                                     <ItemCard file={f}/>
-                                                </Grid>))
+                                                </Grid>
+                                                ))
                                             }
-                                        <Grid item xs={12} >
-                                            <ItemsPagination totalPages={totalPagesUpdated}
-                                            />
-                                        </Grid>
-                                    </React.Fragment>
-                                :
-                                    <div> Mensaje bonito: No hay archivos aún </div>
+                                            <Grid item xs={12} >
+                                                <ItemsPagination totalPages={totalPagesUpdated}/>
+                                            </Grid>
+                                        </React.Fragment>
+                                    :
+                                        <div> Mensaje bonito: No hay archivos aún </div>
                             )
                     }
                 </Grid>
@@ -101,28 +99,25 @@ export const getServerSideProps = async (ctx) => {
 
     const {type} = ctx.query
 
-    const careersProm = executeQuery(`careers(type: "${type}") {
-                                                 id,
-                                                 name,
-                                              }`)
-
-    const subjectsProm = executeQuery(`subjects{
-                                                 id,
-                                                 name,
-                                                 semester
-                                                 careerId
-                                              } `)
+    const careersSubjectsProm = executeQuery(`careers(type: "${type}") {
+                                                  id,
+                                                  name,
+                                                  }
+                                                  subjects{
+                                                     id,
+                                                     name,
+                                                     semester
+                                                     careerId
+                                                  }`)
 
     const paginatedFilesProm = getPaginatedFiles(ctx.query)
 
-    const [careersObj, subjectsObj, paginatedFilesObj] = await Promise.all([
-        careersProm,
-        subjectsProm,
+    const [careersSubjectsObj, paginatedFilesObj] = await Promise.all([
+        careersSubjectsProm,
         paginatedFilesProm
     ])
 
-    const {careers} = careersObj
-    const {subjects} = subjectsObj
+    const {careers, subjects} = careersSubjectsObj
     const {files, totalPages} = paginatedFilesObj
 
     return {
