@@ -33,6 +33,9 @@ export default function NavBar() {
                 <Link href="/files">
                     <Button color="inherit"> Files </Button>
                 </Link>
+                <Link href="/upload">
+                    <Button color="inherit"> Upload Files </Button>
+                </Link>
             </Toolbar>
         </AppBar>
     );
