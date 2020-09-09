@@ -5,7 +5,6 @@ import {Grid} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 const IndexPage = ({careers, subjects}) => {
-
     return (
         <Grid container>
             <Grid item xs={12} lg={6}>
@@ -20,31 +19,20 @@ const IndexPage = ({careers, subjects}) => {
     );
 };
 
-export const getServerSideProps = async (ctx) => {
-
-    const {type} = ctx.query
-
-    const {careers} = await executeQuery(`careers(type: "${type}") {
+export const getServerSideProps = async () => {
+    const {careers, subjects} = await executeQuery(`careers {
                                                          id,
                                                          name,
-                                                      }`)
-    if(ctx.query.subject) {
-        const {subjects} = await executeQuery(`subjects(careerId: ${ctx.query.subject}) {
-                                                    id
-                                                    name
-                                                    semester
-                                                }`)
-        return {
-            props: {
-                careers,
-                subjects
-            }
-        }
-    }
-
+                                                      }
+                                                      subjects {
+                                                            id
+                                                            name
+                                                            semester
+                                                        }`)
     return {
         props: {
-            careers
+            careers,
+            subjects
         }
     }
 
