@@ -37,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 const ItemCard = ({file}) => {
 
     const classes = useStyles();
-    const theme = useTheme();
 
     return (
         <Card className={classes.root} elevation={5}>
